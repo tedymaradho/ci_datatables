@@ -6,61 +6,48 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
 </head>
 
 <body>
     <div class="container mt-3">
         <form action="" method="post">
             <div class="input-group mb-3 w-50">
-                <input type="text" class="form-control form-control-sm" placeholder="Search" name="keyword">
+                <input type="text" class="form-control form-control-sm" placeholder="Search" name="keyword"
+                    id="keyword">
                 <button type="submit" class="btn btn-sm btn-primary">Search</button>
             </div>
         </form>
         <div class="table-responsive">
-            <table class="table table-sm table-bordered table-striped">
+            <table class="table table-bordered table-sm table-striped" id="productTable">
                 <thead>
                     <tr>
-                        <th>No.</th>
-                        <th>ID</th>
-                        <th>Product name</th>
+                        <th>No</th>
+                        <th>Product Id</th>
+                        <th>Product Name</th>
                         <th>Price</th>
-                        <th></th>
+                        <th>Options</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <?php
-                    $no = 1 + ($pageLimit * ($currentPage - 1));
-                    foreach ($products as $product) { ?>
-                        <tr>
-                            <td>
-                                <?= $no ?>
-                            </td>
-                            <td>
-                                <?= $product['product_id'] ?>
-                            </td>
-                            <td>
-                                <?= $product['product_name'] ?>
-                            </td>
-                            <td>
-                                <?= $product['price'] ?>
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-sm btn-flat btn-warning">Edit</button>
-                                <button type="button" class="btn btn-sm btn-flat btn-danger">Delete</button>
-                            </td>
-                        </tr>
-                        <?php
-                        $no++;
-                    } ?>
-                </tbody>
             </table>
-            <?= $pager->links('tb_product', 'product_pagination') ?>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#productTable').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: "<?= site_url('home/getproducts') ?>"
+            });
+        });
+    </script>
 </body>
 
 </html>
